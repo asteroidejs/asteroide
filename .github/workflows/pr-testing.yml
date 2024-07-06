@@ -2,8 +2,7 @@ name: Test Pull Request Changes
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - '__tests__/**'
+      - 'packages/**'
       - '.github/workflows/pr-testing.yml'
 jobs:
   run-tests:

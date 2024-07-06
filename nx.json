@@ -10,6 +10,5 @@
       "outputs": ["{projectRoot}/dist"],
       "cache": true
     }
-  },
-  "nxCloudAccessToken": "MmMxODg1MGItMmE1My00MmY1LWFmMGMtOTIzYjFmYjZmYTM2fHJlYWQtd3JpdGU="
+  }
 }

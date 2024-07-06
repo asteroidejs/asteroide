@@ -1,0 +1,29 @@
+{
+  "name": "@asteroidejs/common",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "directory": "packages/common"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "generate-types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist",
+    "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register && npm run generate-types",
+    "test": "jest --runInBand",
+    "test:coverage": "jest --runInBand --coverage",
+    "test:watch": "jest --runInBand --watch"
+  }
+}

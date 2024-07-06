@@ -1,0 +1,16 @@
+# Bundle / Dependency
+node_modules/
+
+# Build
+.alaska/
+dist/
+
+# Cache 
+.nx/
+
+# IDE
+.idea/
+.vscode/
+
+# Testing
+coverage/

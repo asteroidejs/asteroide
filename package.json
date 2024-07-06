@@ -43,7 +43,8 @@
     "lint": "lerna run lint",
     "test": "lerna run test",
     "test:coverage": "lerna run test:coverage",
-    "test:watch": "lerna run test:watch"
+    "test:watch": "lerna run test:watch",
+    "publish-packages": "lerna publish"
   },
   "lint-staged": {
     "*.{js,ts}": [

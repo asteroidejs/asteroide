@@ -19,6 +19,7 @@
     "access": "public"
   },
   "scripts": {
+    "format": "prettier --write .",
     "clean": "rimraf dist",
     "generate-types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist",
     "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register && npm run generate-types",

@@ -37,6 +37,7 @@
     "typescript": "^5.5.2"
   },
   "scripts": {
+    "format": "lerna run format",
     "build": "lerna run build",
     "clean": "lerna run clean",
     "lint": "lerna run lint",

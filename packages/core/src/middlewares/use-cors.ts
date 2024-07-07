@@ -1,4 +1,4 @@
-import { RouteMiddleware } from '@asteroidejs/common';
+import { RouteMiddleware } from '../types';
 import { CorsOptions } from 'cors';
 
 type Optiosn = CorsOptions & {

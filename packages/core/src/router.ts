@@ -2,11 +2,11 @@ import {
   DirectoryScanner,
   HttpMethods,
   NotFoundError,
-  RouteHandler,
-  RouteMiddleware,
+  HTTP_METHODS,
 } from '@asteroidejs/common';
 import { ROUTES_FOLDER } from '@asteroidejs/config';
 import path from 'path';
+import { RouteHandler, RouteMiddleware } from './types';
 
 type RouteModule = {
   [K in HttpMethods]: RouteHandler;
@@ -92,7 +92,7 @@ export class Router {
 
   private extractHandlerNames(routeModule: RouteModule): HttpMethods[] {
     return Object.keys(routeModule).filter((key) =>
-      Object.values(HttpMethods).includes(key as HttpMethods),
+      HTTP_METHODS.includes(key as HttpMethods),
     ) as HttpMethods[];
   }
 
@@ -107,7 +107,7 @@ export class Router {
       .replace(/\.ts$/, '')
       .replace(/\.js$/, '')
       .replace(/index$/, '')
-      .replace(/\[([^\]]+)\]/g, ':$1')
+      .replace(/\[([^\]]+)]/g, ':$1')
       .replaceAll(/\\/g, '/')
       .replace(/\/$/, '')}`;
     const params: Record<string, string> = {};

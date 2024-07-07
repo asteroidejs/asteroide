@@ -1,6 +1,6 @@
 {
   "name": "@asteroidejs/config",
-  "version": "0.0.0",
+  "version": "0.0.1-canary.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,8 +20,12 @@
   },
   "scripts": {
     "format": "prettier --write .",
+    "lint": "eslint . --ext .ts",
     "clean": "rimraf dist",
     "generate-types": "tsc --declaration --emitDeclarationOnly --declarationMap --outDir dist",
     "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register && npm run generate-types"
+  },
+  "devDependencies": {
+    "@asteroidejs/common": "^0.0.1-canary.0"
   }
 }

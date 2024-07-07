@@ -1,0 +1,20 @@
+name: Canary Tag Workflow
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+-canary.[0-9]+' # 1.0.0-canary.1
+jobs:
+  publish-canary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - run: npm run publish:canary
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

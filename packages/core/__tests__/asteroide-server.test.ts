@@ -3,7 +3,8 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { Socket } from 'net';
 import { AlaskaHttpResponse } from '../src/response';
 import { AlaskaHttpRequest } from '../src/request';
-import { HttpError, Request, Response } from '@asteroidejs/common';
+import { HttpError } from '@asteroidejs/common';
+import { Request, Response } from '../src';
 
 describe('Asteroide Server', () => {
   let alaska: Asteroide;

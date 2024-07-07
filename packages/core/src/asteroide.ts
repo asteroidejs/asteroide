@@ -1,14 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { Router } from './router';
-import {
-  HttpError,
-  MethodNotAllowedError,
-  RouteHandler,
-  RouteMiddleware,
-} from '@asteroidejs/common';
+import { HttpError, MethodNotAllowedError } from '@asteroidejs/common';
 import { AlaskaHttpRequest } from './request';
 import { AlaskaHttpResponse } from './response';
 import * as http from 'node:http';
+import { RouteHandler, RouteMiddleware } from './types';
 
 type AlaskaServerOptions = {
   name: string;

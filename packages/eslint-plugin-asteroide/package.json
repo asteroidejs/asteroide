@@ -1,0 +1,26 @@
+{
+  "name": "eslint-plugin-asteroide",
+  "version": "0.0.1-canary.0",
+  "description": "ESLint plugin for Asteroide.js",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts",
+    "clean": "rimraf dist",
+    "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register"
+  },
+  "repository": {
+    "type": "git",
+    "directory": "packages/eslint-plugin-asteroide"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@asteroidejs/common": "^0.0.1-canary.0"
+  }
+}

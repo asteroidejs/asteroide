@@ -1,6 +1,6 @@
 {
   "name": "@asteroidejs/cli",
-  "version": "0.0.2-canary.0",
+  "version": "0.0.2-canary.1",
   "description": "",
   "bin": {
     "asteroide": "dist/index.js"
@@ -26,7 +26,7 @@
     "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register"
   },
   "devDependencies": {
-    "@asteroidejs/common": "^0.0.2-canary.0",
-    "@asteroidejs/config": "^0.0.2-canary.0"
+    "@asteroidejs/common": "^0.0.2-canary.1",
+    "@asteroidejs/config": "^0.0.2-canary.1"
   }
 }

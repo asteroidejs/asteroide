@@ -1,11 +1,11 @@
 import { Builder } from '../interfaces';
-import { Config, transformFileSync } from '@swc/core';
+import { Config, transformFile } from '@swc/core';
 import moment from 'moment';
 import { outputFilePath } from '../helpers';
 import fs from 'fs';
 import path from 'path';
 import { Logger } from '@asteroidejs/common';
-import picocolors from 'picocolors';
+import { CompiledFile } from '../types';
 
 export class SwcAppBuilder implements Builder {
   private readonly logger = new Logger({
@@ -29,19 +29,27 @@ export class SwcAppBuilder implements Builder {
   };
 
   async build(filePaths: string[]) {
+    const compiledFiles: CompiledFile[] = [];
+
     for (const filePath of filePaths) {
       const now = moment.now();
-      const { code } = transformFileSync(filePath, this.config);
+      const { code } = await transformFile(filePath, this.config);
       const output = outputFilePath(filePath);
+      const relativeOutput = path.relative(process.cwd(), output);
+
       if (!fs.existsSync(path.dirname(output))) {
         fs.mkdirSync(path.dirname(output), { recursive: true });
       }
+
       fs.writeFileSync(output, code);
-      const relativeOutput = path.relative(process.cwd(), output);
-      this.logger.info(
-        `✓ ${relativeOutput} ${picocolors.gray(`[${moment.now() - now}ms]`)}`,
-      );
+
+      compiledFiles.push({
+        path: relativeOutput,
+        duration: moment.now() - now,
+      });
     }
+
+    return compiledFiles;
   }
 
   private extractPathsFromTsConfig() {

@@ -3,7 +3,7 @@ import { IncomingHttpHeaders, IncomingMessage } from 'http';
 import { parse, UrlWithParsedQuery } from 'url';
 import { Request } from './interfaces';
 
-export class AlaskaHttpRequest implements Request {
+export class AsteroideHttpRequest implements Request {
   public readonly headers: IncomingHttpHeaders;
   public readonly method: keyof typeof HttpMethods;
   public readonly params: Record<string, string>;

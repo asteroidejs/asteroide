@@ -1,33 +1,32 @@
-import { Asteroide } from '../src';
+import { Asteroide, Request, Response } from '../src';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Socket } from 'net';
-import { AlaskaHttpResponse } from '../src/response';
-import { AlaskaHttpRequest } from '../src/request';
+import { AsteroideHttpResponse } from '../src/response';
+import { AsteroideHttpRequest } from '../src/request';
 import { HttpError } from '@asteroidejs/common';
-import { Request, Response } from '../src';
 
 describe('Asteroide Server', () => {
-  let alaska: Asteroide;
+  let app: Asteroide;
   let httpReq: IncomingMessage;
   let httpRes: ServerResponse;
 
   beforeEach(async () => {
-    alaska = await Asteroide.create();
+    app = new Asteroide();
     httpReq = new IncomingMessage(new Socket());
     httpReq.method = 'GET';
     httpReq.url = '/test';
     httpRes = new ServerResponse(httpReq);
 
-    jest.spyOn(alaska['router'], 'prepare').mockResolvedValueOnce(void 0);
+    jest.spyOn(app['router'], 'prepare').mockResolvedValueOnce(void 0);
   });
 
   describe('Creation', () => {
     test('should create an instance of Asteroide Server with default options', () => {
-      expect(alaska).toBeInstanceOf(Asteroide);
-      expect(alaska.server).toBeDefined();
-      expect(alaska['router']).toBeDefined();
-      expect(alaska.options).toEqual({
-        name: 'alaska-server',
+      expect(app).toBeInstanceOf(Asteroide);
+      expect(app.server).toBeDefined();
+      expect(app['router']).toBeDefined();
+      expect(app.options).toEqual({
+        name: 'asteroidejs',
         port: 3000,
         middlewares: [],
       });
@@ -36,36 +35,34 @@ describe('Asteroide Server', () => {
 
   describe('Server', () => {
     test('should start and close the server', async () => {
-      const listenSpy = jest.spyOn(alaska.server, 'listen');
-      const closeSpy = jest.spyOn(alaska.server, 'close');
+      const listenSpy = jest.spyOn(app.server, 'listen');
+      const closeSpy = jest.spyOn(app.server, 'close');
 
-      await alaska.start();
-      await new Promise<void>((resolve) =>
-        alaska.server.on('listening', resolve),
-      );
+      await app.start();
+      await new Promise<void>((resolve) => app.server.on('listening', resolve));
       expect(listenSpy).toHaveBeenCalledWith(3000, '0.0.0.0', undefined);
-      expect(alaska.server.listening).toBe(true);
+      expect(app.server.listening).toBe(true);
 
-      alaska.close();
+      app.close();
 
       expect(closeSpy).toHaveBeenCalled();
-      expect(alaska.server.listening).toBe(false);
+      expect(app.server.listening).toBe(false);
     });
 
     describe('Request preparation', () => {
       test('should prepare the request', () => {
-        jest.spyOn(alaska['router'], 'matchRoute').mockReturnValueOnce({
+        jest.spyOn(app['router'], 'matchRoute').mockReturnValueOnce({
           handler: jest.fn(),
           middlewares: [],
           params: {},
         });
 
         const { handler, middlewares, request } =
-          alaska['prepareRequest'](httpReq);
+          app['prepareRequest'](httpReq);
 
         expect(handler).toStrictEqual(expect.any(Function));
         expect(middlewares).toEqual([]);
-        expect(request).toBeInstanceOf(AlaskaHttpRequest);
+        expect(request).toBeInstanceOf(AsteroideHttpRequest);
         expect(request.method).toBe('GET');
         expect(request.url.pathname).toBe('/test');
         expect(request.params).toEqual({});
@@ -73,19 +70,19 @@ describe('Asteroide Server', () => {
 
       test('should throw MethodNotAllowedError if method is not provided', () => {
         httpReq.method = '';
-        expect(() => alaska['prepareRequest'](httpReq)).toThrowError(
+        expect(() => app['prepareRequest'](httpReq)).toThrowError(
           'Method Not Allowed',
         );
       });
 
       test('should prepare the response', () => {
-        const preparedResponse = alaska['prepareResponse'](httpRes);
-        expect(preparedResponse).toBeInstanceOf(AlaskaHttpResponse);
+        const preparedResponse = app['prepareResponse'](httpRes);
+        expect(preparedResponse).toBeInstanceOf(AsteroideHttpResponse);
       });
 
       describe('Request handling', () => {
-        let req: AlaskaHttpRequest;
-        let res: AlaskaHttpResponse;
+        let req: AsteroideHttpRequest;
+        let res: AsteroideHttpResponse;
         const middleware = jest.fn(
           (_: Request, __: Response, next: () => void) => {
             next();
@@ -93,8 +90,8 @@ describe('Asteroide Server', () => {
         );
 
         beforeEach(() => {
-          req = new AlaskaHttpRequest(httpReq, {});
-          res = new AlaskaHttpResponse(httpRes);
+          req = new AsteroideHttpRequest(httpReq, {});
+          res = new AsteroideHttpResponse(httpRes);
           res.send = jest.fn();
           res.json = jest.fn();
         });
@@ -102,7 +99,7 @@ describe('Asteroide Server', () => {
         test('should run middlewares in queue', async () => {
           const middlewares = [middleware];
           const handler = jest.fn().mockResolvedValueOnce(void 0);
-          await alaska['handleRequest'](req, res, middlewares, handler);
+          await app['handleRequest'](req, res, middlewares, handler);
           expect(middleware).toHaveBeenCalledWith(
             req,
             res,
@@ -118,21 +115,21 @@ describe('Asteroide Server', () => {
             },
           );
           const handler = jest.fn().mockResolvedValueOnce(void 0);
-          await alaska['handleRequest'](req, res, [middleware], handler);
+          await app['handleRequest'](req, res, [middleware], handler);
           expect(handler).not.toHaveBeenCalled();
         });
 
         test('should run the handler after all middlewares', async () => {
           const middlewares = [middleware];
           const handler = jest.fn().mockResolvedValueOnce(void 0);
-          await alaska['handleRequest'](req, res, middlewares, handler);
+          await app['handleRequest'](req, res, middlewares, handler);
           expect(handler).toHaveBeenCalled();
         });
 
         describe('Handler response', () => {
           test('when handler returns a string/buffer value', async () => {
             const handler = jest.fn().mockResolvedValueOnce('Hello, world!');
-            await alaska['handleRequest'](req, res, [], handler);
+            await app['handleRequest'](req, res, [], handler);
             expect(res.send).toHaveBeenCalledWith('Hello, world!');
           });
 
@@ -140,7 +137,7 @@ describe('Asteroide Server', () => {
             const handler = jest
               .fn()
               .mockResolvedValueOnce({ message: 'Hello' });
-            await alaska['handleRequest'](req, res, [], handler);
+            await app['handleRequest'](req, res, [], handler);
             expect(res.json).toHaveBeenCalledWith({ message: 'Hello' });
           });
         });
@@ -150,7 +147,7 @@ describe('Asteroide Server', () => {
             const handler = jest
               .fn()
               .mockRejectedValueOnce(new HttpError(400, 'Test'));
-            await alaska['handleRequest'](req, res, [], handler);
+            await app['handleRequest'](req, res, [], handler);
             expect(res.statusCode).toBe(400);
             expect(res.statusMessage).toBe('BAD_REQUEST');
             expect(res.send).toHaveBeenCalledWith('Test');
@@ -161,7 +158,7 @@ describe('Asteroide Server', () => {
             const consoleSpy = jest
               .spyOn(console, 'error')
               .mockImplementation();
-            await alaska['handleRequest'](req, res, [], handler);
+            await app['handleRequest'](req, res, [], handler);
             expect(res.statusCode).toBe(500);
             expect(res.statusMessage).toBe('INTERNAL_SERVER_ERROR');
             expect(res.send).toHaveBeenCalledWith('Internal Server Error');
@@ -181,13 +178,13 @@ describe('Asteroide Server', () => {
             }),
           ];
 
-          jest.spyOn(alaska['router'], 'matchRoute').mockReturnValueOnce({
+          jest.spyOn(app['router'], 'matchRoute').mockReturnValueOnce({
             handler,
             middlewares,
             params: {},
           });
 
-          alaska.server.emit('request', httpReq, httpRes);
+          app.server.emit('request', httpReq, httpRes);
 
           await new Promise<void>((resolve) => httpRes.on('finish', resolve));
 

@@ -3,6 +3,7 @@ import {
   HttpMethods,
   NotFoundError,
   HTTP_METHODS,
+  Logger,
 } from '@asteroidejs/common';
 import { ROUTES_FOLDER } from '@asteroidejs/config';
 import path from 'path';
@@ -25,7 +26,15 @@ type Route = {
 };
 
 export class Router {
-  private routes: Route[] = [];
+  private readonly logger: Logger;
+  private readonly routes: Route[];
+
+  constructor() {
+    this.logger = new Logger({
+      context: Router.name,
+    });
+    this.routes = [];
+  }
 
   async prepare(): Promise<void> {
     const routeFiles: string[] = [];
@@ -40,6 +49,13 @@ export class Router {
     }).scan();
 
     await this.loadRoutes(routeFiles);
+
+    this.routes.sort((a, b) => a.pathname.length - b.pathname.length);
+    this.routes.forEach((route) => {
+      this.logger.info(
+        `Route ${route.method.toUpperCase()} ${route.pathname} added`,
+      );
+    });
   }
 
   matchRoute(

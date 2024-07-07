@@ -1,11 +1,11 @@
-import { AlaskaHttpRequest } from '../src/request';
-import { AlaskaHttpResponse } from '../src/response';
+import { AsteroideHttpRequest } from '../src/request';
+import { AsteroideHttpResponse } from '../src/response';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Socket } from 'net';
 
 describe('Asteroide Request and Response', () => {
-  let req: AlaskaHttpRequest;
-  let res: AlaskaHttpResponse;
+  let req: AsteroideHttpRequest;
+  let res: AsteroideHttpResponse;
 
   beforeEach(() => {
     const _req = new IncomingMessage(new Socket());
@@ -14,8 +14,8 @@ describe('Asteroide Request and Response', () => {
     _req.method = 'GET';
     _req.url = '/test?query=1';
 
-    req = new AlaskaHttpRequest(_req, {});
-    res = new AlaskaHttpResponse(_res);
+    req = new AsteroideHttpRequest(_req, {});
+    res = new AsteroideHttpResponse(_res);
   });
 
   describe('Request', () => {

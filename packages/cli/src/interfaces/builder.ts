@@ -1,3 +1,5 @@
+import { CompiledFile } from '../types';
+
 export interface Builder {
-  build(filePaths: string[]): Promise<void>;
+  build(filePaths: string[]): Promise<CompiledFile[]>;
 }

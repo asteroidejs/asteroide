@@ -2,7 +2,7 @@ import { HttpCodes } from '@asteroidejs/common';
 import { OutgoingHttpHeaders, ServerResponse } from 'http';
 import { Response } from './interfaces';
 
-export class AlaskaHttpResponse implements Response {
+export class AsteroideHttpResponse implements Response {
   private sent = false;
 
   get alreadySent() {

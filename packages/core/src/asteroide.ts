@@ -1,28 +1,35 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { Router } from './router';
-import { HttpError, MethodNotAllowedError } from '@asteroidejs/common';
-import { AlaskaHttpRequest } from './request';
-import { AlaskaHttpResponse } from './response';
+import { HttpError, Logger, MethodNotAllowedError } from '@asteroidejs/common';
 import * as http from 'node:http';
 import { RouteHandler, RouteMiddleware } from './types';
+import { AsteroideHttpRequest } from './request';
+import { AsteroideHttpResponse } from './response';
 
-type AlaskaServerOptions = {
+type AsteroideAppOptions = {
   name: string;
   port: number;
   middlewares: RouteMiddleware[];
 };
 
 export class Asteroide {
-  private readonly router = new Router();
   readonly server: http.Server;
-  readonly options: AlaskaServerOptions = {
-    name: 'alaska-server',
-    port: 3000,
-    middlewares: [],
-  };
+  readonly options: AsteroideAppOptions;
+  private readonly router: Router;
+  private readonly logger: Logger;
 
-  private constructor(options?: Partial<AlaskaServerOptions>) {
-    Object.assign(this.options, options);
+  public constructor(options?: Partial<AsteroideAppOptions>) {
+    this.router = new Router();
+    this.logger = new Logger({
+      context: Asteroide.name,
+    });
+
+    this.options = {
+      name: 'asteroidejs',
+      port: 3000,
+      middlewares: [],
+      ...options,
+    };
 
     this.server = http.createServer(async (req, res) => {
       const { handler, middlewares, request } = this.prepareRequest(req);
@@ -37,30 +44,33 @@ export class Asteroide {
   }
 
   public async start(callback?: () => void): Promise<void> {
-    await this.router.prepare().then(() => {
-      this.server.listen(this.options.port, '0.0.0.0', callback);
-    });
+    try {
+      await this.router.prepare();
+      this.server.listen(this.options.port, '0.0.0.0', () => {
+        this.logger.info(
+          `${this.options.name} server is running on http://localhost:${this.options.port}`,
+        );
+
+        callback?.();
+      });
+    } catch (err) {
+      this.logger.error(err.toString());
+    }
   }
 
   public close(callback?: () => void): void {
     this.server.close(callback);
   }
 
-  public static async create(
-    options?: Partial<AlaskaServerOptions>,
-  ): Promise<Asteroide> {
-    return new Asteroide(options);
-  }
-
   private prepareRequest(req: IncomingMessage): Readonly<{
     handler: RouteHandler;
     middlewares: RouteMiddleware[];
-    request: AlaskaHttpRequest;
+    request: AsteroideHttpRequest;
   }> {
     const { method } = req;
     if (!method) throw new MethodNotAllowedError();
     const route = this.router.matchRoute(method || '', req.url || '');
-    const preparedRequest = new AlaskaHttpRequest(req, route.params);
+    const preparedRequest = new AsteroideHttpRequest(req, route.params);
     return {
       handler: route.handler,
       middlewares: route.middlewares,
@@ -68,13 +78,13 @@ export class Asteroide {
     };
   }
 
-  private prepareResponse(res: ServerResponse): AlaskaHttpResponse {
-    return new AlaskaHttpResponse(res);
+  private prepareResponse(res: ServerResponse): AsteroideHttpResponse {
+    return new AsteroideHttpResponse(res);
   }
 
   private async handleRequest(
-    req: AlaskaHttpRequest,
-    res: AlaskaHttpResponse,
+    req: AsteroideHttpRequest,
+    res: AsteroideHttpResponse,
     middlewares: RouteMiddleware[],
     handler: RouteHandler,
   ): Promise<void> {
@@ -99,8 +109,8 @@ export class Asteroide {
   }
 
   private async runRouteHandler(
-    request: AlaskaHttpRequest,
-    response: AlaskaHttpResponse,
+    request: AsteroideHttpRequest,
+    response: AsteroideHttpResponse,
     handler: RouteHandler,
   ) {
     try {

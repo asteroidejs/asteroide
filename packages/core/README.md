@@ -1,11 +1,11 @@
 ![Asteroide OG Image](https://asteroidejs.com/images/og.png)
-<div style="text-align: center">
+<div align="center"  style="text-align: center">
     <img alt="Version" src="https://img.shields.io/github/lerna-json/v/asteroidejs/asteroide?style=for-the-badge&logo=npm&label=NPM&labelColor=000&color=1269F4" />
     <img alt="License" src="https://img.shields.io/github/license/asteroidejs/asteroide?style=for-the-badge&labelColor=000&color=1269F4" />
     <img alt="Backers" src="https://img.shields.io/opencollective/backers/asteroide?style=for-the-badge&logo=opencollective&logoColor=1269F4&labelColor=000&color=1269F4"/>
     <img alt="Sponsors" src="https://img.shields.io/opencollective/sponsors/asteroide?style=for-the-badge&logo=opencollective&logoColor=1269F4&labelColor=000&color=1269F4" />
 </div>
-<div style="text-align: center">
+<div align="center" style="text-align: center">
     <p style="max-width: 400px; margin: 2rem auto">
         The Next-Gen Node.js Framework for building fast, modern and scalable server-side applications with TypeScript.
     </p>

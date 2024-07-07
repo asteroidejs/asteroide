@@ -52,7 +52,7 @@
     "test": "lerna run test",
     "test:coverage": "lerna run test:coverage",
     "test:watch": "lerna run test:watch",
-    "publish-packages": "lerna publish"
+    "publish:canary": "lerna publish from-git --canary --dist-tag canary"
   },
   "lint-staged": {
     "*.{js,ts}": [

@@ -40,7 +40,11 @@ describe('Asteroide Server', () => {
 
       await app.start();
       await new Promise<void>((resolve) => app.server.on('listening', resolve));
-      expect(listenSpy).toHaveBeenCalledWith(3000, '0.0.0.0', undefined);
+      expect(listenSpy).toHaveBeenCalledWith(
+        3000,
+        '0.0.0.0',
+        expect.any(Function),
+      );
       expect(app.server.listening).toBe(true);
 
       app.close();

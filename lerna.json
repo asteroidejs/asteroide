@@ -2,5 +2,11 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "0.0.2-canary.2",
   "packages": ["packages/*"],
-  "registry": "https://registry.npmjs.org"
+  "registry": "https://registry.npmjs.org",
+  "command": {
+    "publish": {
+      "ignoreChanges": ["**/__tests__/**", "**/*.test.js", "**/*.spec.js"],
+      "message": "chore(release): publish"
+    }
+  }
 }

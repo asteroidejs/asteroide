@@ -6,3 +6,5 @@
  */
 
 export * from './constants';
+export * from './define-config';
+export * from './load-config';

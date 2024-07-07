@@ -5,6 +5,8 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts",
     "clean": "rimraf dist",
     "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register"
   },
@@ -18,7 +20,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
+  "devDependencies": {
     "@asteroidejs/common": "^0.0.0"
   }
 }

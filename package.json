@@ -1,6 +1,6 @@
 {
   "name": "@asteroidejs/source",
-  "description": "",
+  "description": "The Next-Gen Node.js Framework for building fast, modern and scalable server-side applications with TypeScript.",
   "author": {
     "name": "Lucas Larangeira",
     "email": "lukearch@proton.me",

@@ -23,6 +23,6 @@ jobs:
         run: npm run build && npm test
 
       - name: Publish to npm
-        run: npx lerna publish --canary --yes --no-git-tag-version --no-push --dist-tag canary
+        run: npx lerna publish from-package --canary --yes --dist-tag canary
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

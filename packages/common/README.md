@@ -1,4 +1,5 @@
 ![Asteroide OG Image](https://asteroidejs.com/images/og.png)
+
 <div align="center"  style="text-align: center">
     <img alt="Version" src="https://img.shields.io/github/lerna-json/v/asteroidejs/asteroide?style=for-the-badge&logo=npm&label=NPM&labelColor=000&color=1269F4" />
     <img alt="License" src="https://img.shields.io/github/license/asteroidejs/asteroide?style=for-the-badge&labelColor=000&color=1269F4" />

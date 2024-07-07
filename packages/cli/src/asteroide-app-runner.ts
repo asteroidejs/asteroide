@@ -23,7 +23,7 @@ export class AsteroideAppRunner {
     });
   }
 
-  async run() {
+  run() {
     this.runner.events.on('run', async () => {
       try {
         await this.builder.build();

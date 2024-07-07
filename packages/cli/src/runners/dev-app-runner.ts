@@ -13,9 +13,7 @@ export class DevAppRunner implements Runner {
   readonly environment: AppEnvironments;
   readonly events: EventEmitter;
   private appProcess?: ChildProcess;
-  private readonly logger = new Logger({
-    context: DevAppRunner.name,
-  });
+  private readonly logger: Logger;
   private readonly fileWatcher: FSWatcher;
 
   constructor() {
@@ -25,6 +23,11 @@ export class DevAppRunner implements Runner {
       path.resolve(process.cwd(), '.env.development'),
       path.resolve(process.cwd(), '.env.local.development'),
     ];
+
+    this.logger = new Logger({
+      context: DevAppRunner.name,
+    });
+
     this.environment = AppEnvironments.DEVELOPMENT;
     this.events = new EventEmitter();
     this.fileWatcher = watch(

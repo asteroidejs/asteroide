@@ -2,7 +2,7 @@ name: Canary Tag Workflow
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+-canary.[0-9]+' # 1.0.0-canary.1
+      - 'v[0-9]+.[0-9]+.[0-9]+-canary.[0-9]+' # 1.0.0-canary.1
 jobs:
   publish-canary:
     runs-on: ubuntu-latest

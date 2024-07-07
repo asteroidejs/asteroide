@@ -3,5 +3,10 @@
   "version": "0.0.2-canary.0",
   "packages": ["packages/*"],
   "registry": "https://registry.npmjs.org",
-  "license": "MIT"
+  "license": "MIT",
+  "command": {
+    "publish": {
+      "yes": true
+    }
+  }
 }

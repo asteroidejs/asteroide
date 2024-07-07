@@ -1,0 +1,35 @@
+{
+  "name": "@asteroidejs/cli",
+  "version": "0.0.0",
+  "description": "",
+  "bin": {
+    "asteroide": "dist/index.js"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "directory": "packages/cli"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts",
+    "clean": "rimraf dist",
+    "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register",
+    "test": "jest --runInBand",
+    "test:coverage": "jest --runInBand --coverage",
+    "test:watch": "jest --runInBand --watch"
+  },
+  "devDependencies": {
+    "@asteroidejs/common": "^0.0.0",
+    "@asteroidejs/config": "^0.0.0"
+  }
+}

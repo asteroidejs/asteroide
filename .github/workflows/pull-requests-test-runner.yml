@@ -1,4 +1,4 @@
-name: Run tests
+name: pull-requests-test-runner
 on:
   pull_request:
     branches:

@@ -1,4 +1,4 @@
-name: Dependency Review Workflow
+name: dependency-review
 on:
   pull_request:
     branches:

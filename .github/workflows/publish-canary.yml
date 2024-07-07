@@ -1,4 +1,4 @@
-name: Canary Tag Workflow
+name: publish-canary
 on:
   push:
     tags:

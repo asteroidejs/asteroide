@@ -1,6 +1,6 @@
-import { HttpMethods } from '../index';
 import { IncomingHttpHeaders } from 'http';
 import { UrlWithParsedQuery } from 'url';
+import { HttpMethods } from '@asteroidejs/common';
 
 export interface Request {
   method: keyof typeof HttpMethods;

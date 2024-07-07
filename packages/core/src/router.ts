@@ -2,12 +2,11 @@ import {
   DirectoryScanner,
   HttpMethods,
   NotFoundError,
-  RouteHandler,
-  RouteMiddleware,
   HTTP_METHODS,
 } from '@asteroidejs/common';
 import { ROUTES_FOLDER } from '@asteroidejs/config';
 import path from 'path';
+import { RouteHandler, RouteMiddleware } from './types';
 
 type RouteModule = {
   [K in HttpMethods]: RouteHandler;

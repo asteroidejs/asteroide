@@ -1,6 +1,7 @@
-import { HttpMethods, Request } from '@asteroidejs/common';
+import { HttpMethods } from '@asteroidejs/common';
 import { IncomingHttpHeaders, IncomingMessage } from 'http';
 import { parse, UrlWithParsedQuery } from 'url';
+import { Request } from './interfaces';
 
 export class AlaskaHttpRequest implements Request {
   public readonly headers: IncomingHttpHeaders;

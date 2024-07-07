@@ -1,10 +1,10 @@
-name: Release Canary
+name: Release Latest
 on:
-  push:
-    tags:
-      - 'v*.*.*-canary.*'
+  release:
+    types:
+      - created
 jobs:
-  release-canary:
+  release-package:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Release canary
-        run: npx lerna publish from-git --canary --yes --dist-tag canary
+      - name: Release package
+        run: npx lerna publish from-git --yes --dist-tag latest
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

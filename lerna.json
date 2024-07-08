@@ -5,8 +5,16 @@
   "registry": "https://registry.npmjs.org",
   "command": {
     "publish": {
-      "ignoreChanges": ["**/__tests__/**", "**/*.test.js", "**/*.spec.js"],
-      "message": "chore(release): publish"
+      "ignoreChanges": ["**/__tests__/**", "**/*.test.js", "**/*.spec.js"]
+    },
+    "version": {
+      "push": false
+    },
+    "run": {
+      "npmClient": "npm",
+      "private": false,
+      "skipNxCache": false,
+      "stream": true
     }
   }
 }

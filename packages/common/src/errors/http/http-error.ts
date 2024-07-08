@@ -4,6 +4,7 @@ export class HttpError extends AlaskaServerError {
   constructor(
     public readonly statusCode: number,
     public readonly message: string,
+    public readonly data?: Record<string, unknown>,
   ) {
     super(message, 'HttpError');
   }

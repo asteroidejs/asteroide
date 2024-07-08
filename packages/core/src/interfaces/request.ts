@@ -13,5 +13,5 @@ export interface Request {
     set<T = unknown>(key: string, value: T): void;
     delete(key: string): void;
   };
-  body<T = unknown>(): Promise<Readonly<T>>;
+  body<T>(): Promise<Readonly<T>>;
 }

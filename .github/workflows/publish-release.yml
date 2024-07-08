@@ -2,7 +2,8 @@ name: Publish Release
 on:
   release:
     types:
-      - created
+      - published
+      - prereleased
 jobs:
   publish-package:
     runs-on: ubuntu-latest

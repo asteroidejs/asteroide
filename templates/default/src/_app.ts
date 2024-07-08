@@ -1,8 +1,6 @@
 import { Asteroide } from '@asteroidejs/core';
 
-async function runApp() {
-  const app = new Asteroide();
-  await app.start();
-}
+const app = Asteroide.create();
+app.start();
 
-runApp().then();
+export default app;

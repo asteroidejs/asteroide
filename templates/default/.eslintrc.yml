@@ -17,3 +17,15 @@ overrides:
       - "plugin:@typescript-eslint/recommended"
       - "plugin:prettier/recommended"
       - "plugin:asteroide/recommended"
+  - files:
+      - "*.spec.ts"
+      - "*.e2e-spec.ts"
+    env:
+      jest: true
+    extends:
+      - "plugin:@typescript-eslint/recommended"
+      - "plugin:jest/recommended"
+      - "plugin:jest/style"
+      - "plugin:prettier/recommended"
+    parserOptions:
+      project: "./tsconfig.spec.json"

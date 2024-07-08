@@ -1,9 +1,9 @@
-import { Asteroide, Request, Response } from '../src';
+import { HttpError } from '@asteroidejs/common';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Socket } from 'net';
-import { AsteroideHttpResponse } from '../src/response';
+import { Asteroide, Request, Response } from '../src';
 import { AsteroideHttpRequest } from '../src/request';
-import { HttpError } from '@asteroidejs/common';
+import { AsteroideHttpResponse } from '../src/response';
 
 describe('Asteroide Server', () => {
   let app: Asteroide;
@@ -11,7 +11,7 @@ describe('Asteroide Server', () => {
   let httpRes: ServerResponse;
 
   beforeEach(async () => {
-    app = new Asteroide();
+    app = Asteroide.create();
     httpReq = new IncomingMessage(new Socket());
     httpReq.method = 'GET';
     httpReq.url = '/test';
@@ -38,7 +38,7 @@ describe('Asteroide Server', () => {
       const listenSpy = jest.spyOn(app.server, 'listen');
       const closeSpy = jest.spyOn(app.server, 'close');
 
-      await app.start();
+      app.start();
       await new Promise<void>((resolve) => app.server.on('listening', resolve));
       expect(listenSpy).toHaveBeenCalledWith(
         3000,

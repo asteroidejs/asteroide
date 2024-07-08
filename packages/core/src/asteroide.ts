@@ -13,12 +13,13 @@ type AsteroideAppOptions = {
 };
 
 export class Asteroide {
+  private static readonly staticInstanceRef: Asteroide;
   readonly server: http.Server;
   readonly options: AsteroideAppOptions;
   private readonly router: Router;
   private readonly logger: Logger;
 
-  public constructor(options?: Partial<AsteroideAppOptions>) {
+  private constructor(options?: Partial<AsteroideAppOptions>) {
     this.router = new Router();
     this.logger = new Logger({
       context: Asteroide.name,
@@ -43,23 +44,35 @@ export class Asteroide {
     });
   }
 
-  public async start(callback?: () => void): Promise<void> {
-    try {
-      await this.router.prepare();
-      this.server.listen(this.options.port, '0.0.0.0', () => {
-        this.logger.info(
-          `${this.options.name} server is running on http://localhost:${this.options.port}`,
-        );
-
-        callback?.();
-      });
-    } catch (err) {
-      this.logger.error(err.toString());
+  static create(options?: Partial<AsteroideAppOptions>): Asteroide {
+    if (!Asteroide.staticInstanceRef) {
+      return new Asteroide(options);
     }
+
+    return Asteroide.staticInstanceRef;
+  }
+
+  public start(callback?: () => void): void {
+    if (this.server.listening) return;
+
+    this.router
+      .prepare()
+      .then(() => {
+        this.server.listen(this.options.port, '0.0.0.0', () => {
+          this.logger.info(
+            `${this.options.name} server is running on http://localhost:${this.options.port}`,
+          );
+
+          callback?.();
+        });
+      })
+      .catch((error) => {
+        this.logger.error(error.toString());
+      });
   }
 
   public close(callback?: () => void): void {
-    this.server.close(callback);
+    this.server.close(callback)?.unref();
   }
 
   private prepareRequest(req: IncomingMessage): Readonly<{

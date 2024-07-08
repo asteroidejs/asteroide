@@ -1,6 +1,6 @@
 {
   "name": "default",
-  "version": "0.2.0-canary.0",
+  "version": "0.2.1-alpha.0",
   "description": "A default template for Asteroide.js projects",
   "private": true,
   "scripts": {
@@ -13,10 +13,10 @@
     "test:e2e": "npm run build && jest --config e2e/jest-e2e.config.js"
   },
   "dependencies": {
-    "@asteroidejs/cli": "^0.2.0-canary.0",
-    "@asteroidejs/common": "^0.2.0-canary.0",
-    "@asteroidejs/config": "^0.2.0-canary.0",
-    "@asteroidejs/core": "^0.2.0-canary.0"
+    "@asteroidejs/cli": "^0.2.1-alpha.0",
+    "@asteroidejs/common": "^0.2.1-alpha.0",
+    "@asteroidejs/config": "^0.2.1-alpha.0",
+    "@asteroidejs/core": "^0.2.1-alpha.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

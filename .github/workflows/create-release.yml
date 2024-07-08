@@ -56,6 +56,7 @@ jobs:
               body,
               target_commitish: context.sha,
               prerelease: lernaVersion.includes('canary'),
+              draft: false,
             });
 
             core.setOutput('tag', `v${lernaVersion}`);

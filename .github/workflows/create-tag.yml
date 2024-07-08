@@ -4,6 +4,10 @@ on:
     branches:
       - canary
       - master
+
+permissions:
+  repository-projects: write
+
 jobs:
   create-tag:
     runs-on: ubuntu-latest

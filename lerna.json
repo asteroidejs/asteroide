@@ -16,7 +16,8 @@
     },
     "version": {
       "push": false,
-      "gitTagVersion": false
+      "gitTagVersion": false,
+      "private": true
     },
     "run": {
       "npmClient": "npm",

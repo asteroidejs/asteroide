@@ -11,6 +11,7 @@ export class AsteroideAppBuilder {
   private readonly scanner = new DirectoryScanner({
     rootDir: path.resolve(process.cwd(), 'src'),
     searchFor: [/\.ts$/],
+    ignore: [/\.spec\.ts$/, /\.test\.ts$/, /\.d\.ts$/],
     onFile: (filePath: string) => {
       this.files.push(filePath);
     },

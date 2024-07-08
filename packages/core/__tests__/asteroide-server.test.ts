@@ -11,7 +11,7 @@ describe('Asteroide Server', () => {
   let httpRes: ServerResponse;
 
   beforeEach(async () => {
-    app = new Asteroide();
+    app = Asteroide.create();
     httpReq = new IncomingMessage(new Socket());
     httpReq.method = 'GET';
     httpReq.url = '/test';

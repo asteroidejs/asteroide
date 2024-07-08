@@ -11,10 +11,10 @@
     "format": "prettier --write "
   },
   "dependencies": {
-    "@asteroidejs/cli": "^0.0.3-canary.0",
-    "@asteroidejs/common": "^0.0.3-canary.0",
-    "@asteroidejs/config": "^0.0.3-canary.0",
-    "@asteroidejs/core": "^0.0.3-canary.0"
+    "@asteroidejs/cli": "^0.1.0",
+    "@asteroidejs/common": "^0.1.0",
+    "@asteroidejs/config": "^0.1.0",
+    "@asteroidejs/core": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",

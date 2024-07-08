@@ -4,6 +4,9 @@
   "description": "ESLint plugin for Asteroide.js",
   "main": "dist/index.js",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts",

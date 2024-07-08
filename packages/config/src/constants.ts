@@ -1,9 +1,6 @@
 import path from 'path';
 
-export const CONFIG_FILE_NAMES = [
-  'asteroide.config.js',
-  'asteroide.config.json',
-];
+export const CONFIG_FILE_NAMES = ['asteroide.config.js', 'asteroide.config.js'];
 
 export const CONFIG_FILE_REGEXS = [
   /\/asteroide\.config\.js$/,

@@ -11,8 +11,11 @@ import { description, name, version } from '../package.json';
 import { Command } from 'commander';
 import { commands } from './commands';
 import { AsteroidConfigLoader } from '@asteroidejs/config';
+import { printCliVersion } from './helpers/print-cli-version';
 
 async function cli() {
+  printCliVersion();
+
   const configLoader = new AsteroidConfigLoader();
   await configLoader.load();
 

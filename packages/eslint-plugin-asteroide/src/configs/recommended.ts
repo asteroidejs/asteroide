@@ -6,7 +6,7 @@ export default {
     sourceType: 'module',
     ecmaVersion: 'latest',
   },
-  plugins: ['asteroid'],
+  plugins: ['asteroide'],
   rules: {
     'asteroide/no-default-route-handler-export': 'error',
     'asteroide/no-sync-route-handlers': 'error',

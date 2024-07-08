@@ -1,0 +1,34 @@
+{
+  "name": "create-asteroide-app",
+  "version": "0.0.3-canary.0",
+  "description": "",
+  "bin": {
+    "create-asteroide-app": "dist/index.js"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "!dist/templates/node_modules",
+    "!dist/templates/package-lock.json"
+  ],
+  "repository": {
+    "type": "git",
+    "directory": "packages/create-asteroide-app"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts",
+    "clean": "rimraf dist",
+    "copy-templates": "cp -r ../../templates dist/templates",
+    "build": "npm run clean && ncc build src/index.ts -t -o dist --minify --no-cache --no-source-map-register && npm run copy-templates"
+  },
+  "devDependencies": {
+    "@asteroidejs/common": "^0.0.3-canary.0"
+  }
+}

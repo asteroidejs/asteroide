@@ -1,0 +1,30 @@
+{
+  "name": "default",
+  "version": "0.1.0",
+  "description": "A default template for Asteroide.js projects",
+  "private": true,
+  "scripts": {
+    "dev": "asteroide dev",
+    "start": "asteroide start",
+    "build": "asteroide build",
+    "lint": "eslint  --ext .ts",
+    "format": "prettier --write "
+  },
+  "dependencies": {
+    "@asteroidejs/cli": "^0.0.3-canary.0",
+    "@asteroidejs/common": "^0.0.3-canary.0",
+    "@asteroidejs/config": "^0.0.3-canary.0",
+    "@asteroidejs/core": "^0.0.3-canary.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.00",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-asteroide": "^0.0.3-canary.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.3"
+  }
+}

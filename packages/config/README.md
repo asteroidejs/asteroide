@@ -10,7 +10,7 @@
     <p style="max-width: 400px; margin: 2rem auto">
         The Next-Gen Node.js Framework for building fast, modern and scalable server-side applications with TypeScript.
     </p>
-    <a href="https://opencollective.com/asteroide">
+    <a href="https://opencollective.com/asteroide" target="_blank">
         <img alt="Become a backer" src="https://asteroidejs.com/images/become-a-backer.svg" width="250px"/>
     </a>
 </div>

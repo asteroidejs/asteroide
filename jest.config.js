@@ -8,4 +8,5 @@ module.exports = {
   testRegex: '.*\\.test\\.ts$',
   collectCoverageFrom: ['src/**/*.ts', '!src/**/index.ts'],
   coverageReporters: ['html-spa', 'text'],
+  silent: true,
 };

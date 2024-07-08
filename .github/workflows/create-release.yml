@@ -1,4 +1,4 @@
-name: Create Tag
+name: Create Release
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 jobs:
-  create-tag:
+  create-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,12 +36,24 @@ jobs:
               sha: context.sha,
             });
 
+            const changes = await github.rest.repos.compareCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              base: context.payload.before,
+              head: context.sha,
+            });
+
+            const changesList = changes.data.commits.map(commit => `- ${commit.commit.message}`).join('\n');
+            const contributors = changes.data.commits.map(commit => commit.author.login).filter((login, index, logins) => logins.indexOf(login) === index);
+            const contributorsList = contributors.map(contributor => `- @${contributor}`).join('\n');
+            const body = `## Core Changes\n${changesList}\n\n## Contributors\n${contributorsList}`;
+
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: `v${lernaVersion}`,
               name: `v${lernaVersion}`,
-              body: `Release v${lernaVersion}`,
+              body,
               target_commitish: context.sha,
               prerelease: lernaVersion.includes('canary'),
             });

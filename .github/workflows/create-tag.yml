@@ -23,7 +23,7 @@ jobs:
           script: |
             const lernaVersion = require('./lerna.json').version;
 
-            await octokit.git.createTag({
+            await github.rest.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: `v${lernaVersion}`,
@@ -32,29 +32,22 @@ jobs:
               type: 'commit',
             });
 
-            await octokit.git.createRef({
+            await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `refs/tags/v${lernaVersion}`,
               sha: context.sha,
             });
 
-            if (context.ref === 'refs/heads/master') {
-              await octokit.repos.createRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: `v${lernaVersion}`,
-                name: `v${lernaVersion}`,
-                body: `Release v${lernaVersion}`,
-                prerelease: false,
-              });
-            } else {
-              await octokit.repos.createRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: `v${lernaVersion}`,
-                name: `v${lernaVersion}`,
-                body: `Release v${lernaVersion}`,
-                prerelease: true,
-              });
-            }
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `v${lernaVersion}`,
+              name: `v${lernaVersion}`,
+              body: `Release v${lernaVersion}`,
+              target_commitish: context.sha,
+              prerelease: lernaVersion.includes('canary'),
+            });
+
+            core.setOutput('tag', `v${lernaVersion}`);
+            core.setOutput('release', `v${lernaVersion}`);

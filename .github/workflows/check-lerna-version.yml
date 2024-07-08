@@ -1,0 +1,91 @@
+name: Check Lerna Version
+on:
+  pull_request:
+    branches:
+      - master
+      - canary
+jobs:
+  check-lerna-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Check Lerna Version
+        uses: actions/github-script@v7
+        id: check-version
+        with:
+          result-encoding: string
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { octokit } = context;
+            const { data: tags } = await octokit.repos.listTags({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const latestTag = tags[0].name;
+            const lernaVersion = require('./lerna.json').version;
+
+            function isVersionValid(version) {
+              return /^(\d+\.\d+\.\d+)$|^(\d+\.\d+\.\d+-canary\.\d+)$/.test(version);
+            }
+
+            function compareVersions(a, b) {
+              const [aVersion, aPreRelease] = a.split('-');
+              const [bVersion, bPreRelease] = b.split('-');
+              const [aMajor, aMinor, aPatch] = aVersion.split('.').map(Number);
+              const [bMajor, bMinor, bPatch] = bVersion.split('.').map(Number);
+              
+              if (aMajor !== bMajor) {
+                return aMajor - bMajor;
+              }
+              if (aMinor !== bMinor) {
+                return aMinor - bMinor;
+              }
+              if (aPatch !== bPatch) {
+                return aPatch - bPatch;
+              }
+              if (aPreRelease && !bPreRelease) {
+                return -1;
+              }
+              if (!aPreRelease && bPreRelease) {
+                return 1;
+              }
+              if (aPreRelease && bPreRelease) {
+                const [aPreReleaseNumber] = aPreRelease.split('.').map(Number);
+                const [bPreReleaseNumber] = bPreRelease.split('.').map(Number);
+                return aPreReleaseNumber - bPreReleaseNumber;
+              }
+              return 0;
+            }
+
+            if (!isVersionValid(lernaVersion)) {
+              throw new Error(`Invalid version in lerna.json: ${lernaVersion}`);
+            }
+
+            if (compareVersions(latestTag, lernaVersion) >= 0) {
+              throw new Error(`The current lerna version (${lernaVersion}) must be greater than the latest tag (${latestTag})`);
+            }
+
+            console.log(`The current lerna version (${lernaVersion}) is valid and greater than the latest tag (${latestTag})`);
+
+            const branch = context.ref.split('/').pop();
+
+            if (branch === 'canary' && !lernaVersion.includes('-canary')) {
+              throw new Error(`The current lerna version (${lernaVersion}) must follow the 'x.y.z-canary.n' pattern`);
+            }
+
+            if (branch === 'master' && lernaVersion.includes('-canary')) {
+              throw new Error(`The current lerna version (${lernaVersion}) must follow the 'x.y.z' pattern`);
+            }

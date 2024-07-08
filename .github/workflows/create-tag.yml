@@ -1,0 +1,60 @@
+name: Create Tag
+on:
+  push:
+    branches:
+      - canary
+      - master
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Create tag
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const lernaVersion = require('./lerna.json').version;
+
+            await octokit.git.createTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: `v${lernaVersion}`,
+              message: `v${lernaVersion}`,
+              object: context.sha,
+              type: 'commit',
+            });
+
+            await octokit.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/v${lernaVersion}`,
+              sha: context.sha,
+            });
+
+            if (context.ref === 'refs/heads/master') {
+              await octokit.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: `v${lernaVersion}`,
+                name: `v${lernaVersion}`,
+                body: `Release v${lernaVersion}`,
+                prerelease: false,
+              });
+            } else {
+              await octokit.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: `v${lernaVersion}`,
+                name: `v${lernaVersion}`,
+                body: `Release v${lernaVersion}`,
+                prerelease: true,
+              });
+            }

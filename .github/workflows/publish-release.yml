@@ -1,10 +1,10 @@
-name: Release Latest
+name: Publish Release
 on:
   release:
     types:
       - created
 jobs:
-  release-package:
+  publish-package:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,7 +22,14 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Release package
-        run: npx lerna publish from-git --yes --dist-tag latest
+      - name: Publish canary
+        if: github.event.release.prerelease
+        run: npx lerna publish from-git --yes --canary --dist-tag canary
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Publish stable
+        if: !github.event.release.prerelease
+        run: npx lerna publish from-git --yes
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

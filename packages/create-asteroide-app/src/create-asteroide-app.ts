@@ -10,6 +10,7 @@ import {
 } from './steps';
 import picocolors from 'picocolors';
 import path from 'path';
+import { CreateGitIgnoreStep } from './steps/create-git-ignore-step';
 
 export async function createAsteroideApp() {
   const runner = new StepRunner([
@@ -20,6 +21,7 @@ export async function createAsteroideApp() {
     new ChangeProjectInfoStep(),
     new InstallDependenciesStep(),
     new InitGitRepositoryStep(),
+    new CreateGitIgnoreStep(),
   ]);
 
   await runner.run();

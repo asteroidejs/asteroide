@@ -6,7 +6,6 @@ import { EventEmitter } from 'events';
 import path from 'path';
 import { CONFIG_FILE_NAMES, SOURCE_FOLDER } from '@asteroidejs/config';
 import treeKill from 'tree-kill';
-import * as process from 'node:process';
 
 export class DevAppRunner implements Runner {
   readonly envFileNames: string[];

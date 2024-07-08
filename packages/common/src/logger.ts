@@ -1,6 +1,5 @@
 import picocolors from 'picocolors';
 import moment from 'moment';
-import * as process from 'node:process';
 
 type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 

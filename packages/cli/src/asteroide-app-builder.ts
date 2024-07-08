@@ -1,9 +1,7 @@
 import { DirectoryScanner, Logger } from '@asteroidejs/common';
-import * as path from 'node:path';
-import { Builder } from './interfaces';
-import * as process from 'node:process';
+import path from 'path';
 import picocolors from 'picocolors';
-import moment from 'moment/moment';
+import { Builder } from './interfaces';
 
 export class AsteroideAppBuilder {
   private readonly logger = new Logger({

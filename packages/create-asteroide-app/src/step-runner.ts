@@ -1,7 +1,6 @@
 import { StepContext } from './types';
 import { CreateAppStep } from './interfaces/create-app-step';
 import picocolors from 'picocolors';
-import * as process from 'node:process';
 
 export class StepRunner {
   ctx: StepContext;

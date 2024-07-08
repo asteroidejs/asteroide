@@ -72,7 +72,7 @@ export class Asteroide {
   }
 
   public close(callback?: () => void): void {
-    this.server.close(callback).unref();
+    this.server.close(callback)?.unref();
   }
 
   private prepareRequest(req: IncomingMessage): Readonly<{

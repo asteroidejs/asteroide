@@ -23,15 +23,6 @@ jobs:
           script: |
             const lernaVersion = require('./lerna.json').version;
 
-            await github.rest.git.createTag({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag: `v${lernaVersion}`,
-              message: `v${lernaVersion}`,
-              object: context.sha,
-              type: 'commit',
-            });
-
             await github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,

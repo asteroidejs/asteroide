@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "0.1.0-canary.0",
-  "packages": ["packages/*"],
+  "packages": ["packages/*", "templates/*"],
   "registry": "https://registry.npmjs.org",
   "command": {
     "publish": {

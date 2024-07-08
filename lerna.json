@@ -1,14 +1,22 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "0.1.0",
-  "packages": ["packages/*", "templates/*"],
+  "packages": [
+    "packages/*",
+    "templates/*"
+  ],
   "registry": "https://registry.npmjs.org",
   "command": {
     "publish": {
-      "ignoreChanges": ["**/__tests__/**", "**/*.test.js", "**/*.spec.js"]
+      "ignoreChanges": [
+        "**/__tests__/**",
+        "**/*.test.js",
+        "**/*.spec.js"
+      ]
     },
     "version": {
-      "push": false
+      "push": false,
+      "gitTagVersion": false
     },
     "run": {
       "npmClient": "npm",
